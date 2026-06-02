@@ -22,4 +22,33 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[osl-hedgedoc::default]
+      - recipe[hedgedoc_test]
+  - name: mysql
+    run_list:
+      - recipe[hedgedoc_test::mysql]
+    # Reuse the default suite's profile; only the DB dialect differs.
+    verifier:
+      inspec_tests:
+        - test/integration/default
+      inputs:
+        default_extras: false
+        db_dialect: mysql
+  - name: ldap
+    run_list:
+      - recipe[hedgedoc_test::ldap]
+    # Reuse the default suite's profile; only the auth toggles differ.
+    verifier:
+      inspec_tests:
+        - test/integration/default
+      inputs:
+        default_extras: false
+        test_ldap: true
+  - name: oidc
+    run_list:
+      - recipe[hedgedoc_test::oidc]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+      inputs:
+        default_extras: false
+        test_oidc: true
