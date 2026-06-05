@@ -1,0 +1,15 @@
+# Managed by Chef (osl-hedgedoc). All configuration is sourced from the
+# generated .env file alongside this compose file.
+services:
+  hedgedoc:
+    image: quay.io/hedgedoc/hedgedoc:${HEDGEDOC_VERSION}
+    restart: ${RESTART_POLICY}
+    env_file:
+      - .env
+    ports:
+      - ${APP_PORT}:3000
+    volumes:
+      - ./uploads:/hedgedoc/public/uploads:rw
+<% if @mount_intro -%>
+      - ./intro.md:/hedgedoc/public/intro.md:ro
+<% end -%>
