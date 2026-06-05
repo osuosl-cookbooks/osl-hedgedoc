@@ -61,8 +61,8 @@ end
 # Firewall should allow the HedgeDoc port for the external HAProxy host,
 # restricted to OSL-managed IPs (osl_only).
 describe iptables do
-  it { should have_rule('-A INPUT -j hedgedoc-example-org') }
-  it { should have_rule('-A hedgedoc-example-org -p tcp -m tcp --dport 3000 -j osl_only') }
+  it { should have_rule('-A INPUT -j hedgedoc-hedgedoc-example-or') }
+  it { should have_rule('-A hedgedoc-hedgedoc-example-or -p tcp -m tcp --dport 3000 -j osl_only') }
 end unless docker
 
 # --- default suite only: intro_md + extra_options ----------------------------

@@ -25,6 +25,13 @@ module OSLHedgedoc
         name.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/(\A-+|-+\z)/, '')
       end
 
+      # iptables chain name for the instance's firewall rule: a `hedgedoc-`
+      # prefix plus the instance, truncated to the 28-character limit that
+      # iptables/ip6tables enforce on chain names (domains routinely exceed it).
+      def hedgedoc_firewall_chain(instance)
+        "hedgedoc-#{instance}"[0, 28].sub(/-+\z/, '')
+      end
+
       # Default database port for a given dialect.
       def hedgedoc_db_port(dialect)
         dialect == 'postgres' ? 5432 : 3306

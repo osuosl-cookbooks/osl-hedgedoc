@@ -42,9 +42,12 @@ action :create do
 
   # Each instance lives under its own directory so multiple HedgeDoc instances
   # can run on the same host. `instance` is a sanitized identifier reused for the
-  # Compose project, firewall chain, and image resource. See libraries/helpers.rb.
+  # Compose project and image resource. See libraries/helpers.rb.
   base_dir = hedgedoc_base_dir(new_resource.name)
   instance = hedgedoc_instance(new_resource.name)
+  # The firewall chain name is truncated to satisfy the iptables 28-char limit,
+  # which the full (sanitized) domain routinely exceeds.
+  firewall_chain = hedgedoc_firewall_chain(instance)
 
   db_port = new_resource.db_port || hedgedoc_db_port(new_resource.db_dialect)
   db_url = hedgedoc_db_url(
@@ -58,7 +61,7 @@ action :create do
 
   # Open the HedgeDoc port so an HAProxy node terminating SSL on a separate host
   # can reach the backend. Restricted to OSL-managed IPs.
-  osl_firewall_port instance do
+  osl_firewall_port firewall_chain do
     ports [new_resource.port.to_s]
     osl_only true
   end

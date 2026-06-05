@@ -24,6 +24,19 @@ RSpec.describe OSLHedgedoc::Cookbook::Helpers do
     end
   end
 
+  describe '#hedgedoc_firewall_chain' do
+    it 'prefixes the instance with hedgedoc-' do
+      expect(subject.hedgedoc_firewall_chain('example-org')).to eq('hedgedoc-example-org')
+    end
+
+    it 'truncates long names to the iptables 28-char limit without a trailing dash' do
+      chain = subject.hedgedoc_firewall_chain('notes-openpowerfoundation-org')
+      expect(chain.length).to be < 29
+      expect(chain).to start_with('hedgedoc-')
+      expect(chain).to_not end_with('-')
+    end
+  end
+
   describe '#hedgedoc_db_port' do
     it { expect(subject.hedgedoc_db_port('postgres')).to eq(5432) }
     it { expect(subject.hedgedoc_db_port('mysql')).to eq(3306) }

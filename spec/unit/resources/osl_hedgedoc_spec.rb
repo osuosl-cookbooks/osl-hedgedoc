@@ -12,7 +12,7 @@ describe 'hedgedoc_test::default' do
   it { is_expected.to include_recipe 'osl-docker' }
 
   it do
-    is_expected.to accept_osl_firewall_port('hedgedoc-example-org').with(
+    is_expected.to accept_osl_firewall_port('hedgedoc-hedgedoc-example-or').with(
       ports: ['3000'],
       osl_only: true
     )
