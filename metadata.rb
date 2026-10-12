@@ -8,8 +8,8 @@ source_url        'https://github.com/osuosl-cookbooks/osl-hedgedoc'
 chef_version      '>= 18.0'
 version           '1.0.0'
 
-depends           'osl-docker'
-depends           'osl-firewall'
+depends 'osl-docker'
+depends 'osl-firewall'
 
-supports          'almalinux', '~> 9.0'
-supports          'almalinux', '~> 10.0'
+supports 'almalinux', '~> 9.0'
+supports 'almalinux', '~> 10.0'
